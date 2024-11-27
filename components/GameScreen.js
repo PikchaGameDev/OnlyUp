@@ -54,8 +54,8 @@ export class GameScreen {
     );
 
     if (
-      this._contentContainer.x === -width ||
-      this._contentContainer.x === width ||
+      this._contentContainer.x <= -width ||
+      this._contentContainer.x >= width ||
       this._contentContainer.x === 0
     ) {
       this._currentDirection = 0;
