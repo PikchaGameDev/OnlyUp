@@ -2,7 +2,6 @@ import { PreloadScreen } from "../components/PreloadScreen.js";
 
 const LevelObjects = [
   [
-    { key: "background", path: "Background.png" },
     { key: "balloon", path: "Balloon.png" },
     { key: "leaf", path: "Leaf.png" },
     { key: "leaf1", path: "Leaf1.png" },
