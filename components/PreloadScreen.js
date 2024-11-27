@@ -4,11 +4,13 @@ export class PreloadScreen {
   constructor(scene) {
     this._scene = scene;
 
+    this.CONFIG = this._scene.sys.game.CONFIG;
+
     this.build();
   }
 
   build() {
-    const { width, height } = this._scene.cameras.main;
+    const { width, height } = this.CONFIG;
 
     this._background = this._scene.add
       .sprite(0, 0, "preloadBackground")

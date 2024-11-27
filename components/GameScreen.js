@@ -4,6 +4,8 @@ export class GameScreen {
   constructor(scene) {
     this._scene = scene;
 
+    this.CONFIG = this._scene.sys.game.CONFIG;
+
     this._gameScreenSwipeVelocity = 10;
     this._currentDirection = 0;
 
@@ -11,7 +13,7 @@ export class GameScreen {
   }
 
   build() {
-    const { width, height } = this._scene.cameras.main;
+    const { width, height } = this.CONFIG;
 
     this._background = this._scene.add.sprite(0, 0, "background").setOrigin(0);
 
@@ -34,7 +36,7 @@ export class GameScreen {
   }
 
   update() {
-    const { width } = this._scene.cameras.main;
+    const { width } = this.CONFIG;
 
     if (!this._currentDirection) {
       return;
