@@ -6,7 +6,7 @@ export class GameScreen {
 
     this.CONFIG = this._scene.sys.game.CONFIG;
 
-    this._gameScreenSwipeVelocity = 10;
+    this._gameScreenSwipeVelocity = 4;
     this._currentDirection = 0;
 
     this.build();
@@ -50,18 +50,17 @@ export class GameScreen {
       return;
     }
 
-    this._contentContainer.setX(
+    const newX =
       this._contentContainer.x +
-        this._gameScreenSwipeVelocity * this._currentDirection
-    );
+      this._gameScreenSwipeVelocity * this._currentDirection;
 
-    if (
-      this._contentContainer.x <= -width ||
-      this._contentContainer.x >= width ||
-      this._contentContainer.x === 0
-    ) {
-      this._contentContainer.setX(width * this._currentDirection);
+    if (newX <= -width || newX >= width || newX === 0) {
+      newX !== 0
+        ? this._contentContainer.setX(width * this._currentDirection)
+        : this._contentContainer.setX(0);
       this._currentDirection = 0;
+    } else {
+      this._contentContainer.setX(newX);
     }
   }
 
