@@ -60,6 +60,7 @@ export class GameScreen {
       this._contentContainer.x >= width ||
       this._contentContainer.x === 0
     ) {
+      this._contentContainer.setX(width * this._currentDirection);
       this._currentDirection = 0;
     }
   }
