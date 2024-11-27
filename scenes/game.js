@@ -43,7 +43,7 @@ export class Game extends Phaser.Scene {
   }
 
   updateGameScreen() {
-    if (this._gameScreen.y === 11052 - this.cameras.main.height) {
+    if (this._gameScreen.y === 11052 - this.CONFIG.height) {
       return;
     }
 
