@@ -52,11 +52,11 @@ export class Preload extends Phaser.Scene {
     this.load.once("complete", () => {
       this.textures
         .get("background")
-        .add("background-space", 0, 0, 0, 1039, 4098);
+        .add("background-space", 0, 0, 0, 1039, 4096);
 
       this.textures
         .get("background")
-        .add("background-nlo", 0, 0, 4098, 1039, 650);
+        .add("background-nlo", 0, 0, 4096, 1039, 652);
 
       this.textures
         .get("background")
