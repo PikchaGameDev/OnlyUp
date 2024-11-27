@@ -28,11 +28,7 @@ export class PreloadScreen {
     this._progressBorder.fillRect(0, 0, 141, 5);
 
     this._contentContainer = this._scene.add
-      .container(0, 0, [
-        this._background,
-        this._progressBorder,
-        this._progressBar,
-      ])
+      .container(0, 0, [this._progressBorder, this._progressBar])
       .setSize(width, height);
 
     this._scene.load.on("progress", this.onProgress.bind(this));
