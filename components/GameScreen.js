@@ -16,25 +16,27 @@ export class GameScreen {
     const { width, height } = this.CONFIG;
 
     this._backgroundGround = this._scene.add
-      .image(0, 0, "background", "background-ground")
+      .image(0, 0, "backgroundGround")
       .setOrigin(0);
     this._backgroundAir = this._scene.add
-      .image(0, 0, "background", "background-air")
+      .image(0, 0, "backgroundAir")
       .setOrigin(0);
     this._backgroundClouds = this._scene.add
-      .image(0, 0, "background", "background-clouds")
+      .image(0, 0, "backgroundClouds")
       .setOrigin(0);
     this._backgroundNlo = this._scene.add
-      .image(0, 0, "background", "background-nlo")
+      .image(0, 0, "backgroundNlo")
       .setOrigin(0);
     this._backgroundSpace = this._scene.add
-      .image(0, 0, "background", "background-space")
+      .image(0, 0, "backgroundSpace")
       .setOrigin(0);
 
     console.log(this._backgroundGround.width);
 
     const backgroundWidth = this._backgroundGround.width;
-    const backgroundScaleWidthRatio = (width * 3) / backgroundWidth;
+    let backgroundScaleWidthRatio = (width * 3) / backgroundWidth;
+    backgroundScaleWidthRatio =
+      backgroundScaleWidthRatio < 1 ? 1 : backgroundScaleWidthRatio;
 
     this._backgroundGround.setScale(backgroundScaleWidthRatio, 1);
     this._backgroundAir.setScale(backgroundScaleWidthRatio, 1);
@@ -79,15 +81,11 @@ export class GameScreen {
   update() {
     const { width } = this.CONFIG;
 
-    if (!this._currentDirection) {
-      return;
-    }
-
-    if (this._currentDirection === 1 && this._contentContainer.x === width) {
-      return;
-    }
-
-    if (this._currentDirection === -1 && this._contentContainer.x === -width) {
+    if (
+      !this._currentDirection ||
+      (this._currentDirection === 1 && this._contentContainer.x === width) ||
+      (this._currentDirection === -1 && this._contentContainer.x === -width)
+    ) {
       return;
     }
 

@@ -2,6 +2,11 @@ import { PreloadScreen } from "../components/PreloadScreen.js";
 
 const LevelObjects = [
   [
+    { key: "backgroundAir", path: "BackgroundAir.png" },
+    { key: "backgroundClouds", path: "BackgroundClouds.png" },
+    { key: "backgroundGround", path: "BackgroundGround.png" },
+    { key: "backgroundNlo", path: "BackgroundNlo.png" },
+    { key: "backgroundSpace", path: "BackgroundSpace.png" },
     { key: "balloon", path: "Balloon.png" },
     { key: "leaf", path: "Leaf.png" },
     { key: "leaf1", path: "Leaf1.png" },
@@ -47,28 +52,6 @@ export class Preload extends Phaser.Scene {
     this._preloadScreen = new PreloadScreen(this);
 
     this.loadingAdditionalAssets(this._loadedLevels++);
-
-    this.load.once("complete", () => {
-      this.textures
-        .get("background")
-        .add("background-space", 0, 0, 0, 1039, 4096);
-
-      this.textures
-        .get("background")
-        .add("background-nlo", 0, 0, 4096, 1039, 652);
-
-      this.textures
-        .get("background")
-        .add("background-clouds", 0, 0, 4748, 1039, 2841);
-
-      this.textures
-        .get("background")
-        .add("background-air", 0, 0, 7589, 1039, 2404);
-
-      this.textures
-        .get("background")
-        .add("background-ground", 0, 0, 9993, 1039, 1059);
-    });
   }
 
   create() {
