@@ -1,5 +1,5 @@
-import { Balloon } from "../components/Balloon.js";
-import { GameScreen } from "../components/GameScreen.js";
+import BalloonFactory from "../components/Entities/Balloon/BalloonFactory.js";
+import { GameScreen } from "../components/Screens/GameScreen/GameScreen.js";
 import { Swipe } from "../utils/swipe.js";
 
 export class Game extends Phaser.Scene {
@@ -16,13 +16,14 @@ export class Game extends Phaser.Scene {
   }
 
   create() {
-    this._gameScreen = new GameScreen(this);
-    this._balloon = new Balloon(this);
+    const { width, height } = this.CONFIG;
+
+    this._gameScreen = new GameScreen(this, 0, 0);
+
+    this._balloon = new BalloonFactory(this, width / 2, height - 200);
 
     new Swipe(this, {
       swipeDetectedCallback: (direction) => {
-        console.log(direction);
-
         switch (direction) {
           case "RIGHT":
             this._gameScreen.moveToRight();

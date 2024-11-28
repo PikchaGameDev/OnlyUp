@@ -1,7 +1,11 @@
-export class PreloadScreen {
+export class PreloadScreenView extends Phaser.GameObjects.Container {
   _scene;
 
-  constructor(scene) {
+  progressBar;
+
+  constructor(scene, x, y) {
+    super(scene, x, y);
+
     this._scene = scene;
 
     this.CONFIG = this._scene.sys.game.CONFIG;
@@ -21,26 +25,14 @@ export class PreloadScreen {
       height / this._background.height
     );
 
-    this._progressBar = this._scene.add.graphics({ x: 110, y: 571 });
+    this.progressBar = this._scene.add.graphics({ x: 110, y: 571 });
     this._progressBorder = this._scene.add.graphics({ x: 110, y: 571 });
 
     this._progressBorder.fillStyle("0x38366D", 1);
     this._progressBorder.fillRect(0, 0, 141, 5);
 
-    this._contentContainer = this._scene.add
-      .container(0, 0, [this._progressBorder, this._progressBar])
-      .setSize(width, height);
+    this.add([this._progressBorder, this.progressBar]);
 
-    this._scene.load.on("progress", this.onProgress.bind(this));
-  }
-
-  onProgress(value) {
-    this._progressBar.clear();
-    this._progressBar.fillStyle("0xB72FAE", 1);
-    this._progressBar.fillRect(0, 0, 141 * value, 5);
-  }
-
-  destroy() {
-    this._scene.load.removeAllListeners("progress");
+    this.setSize(width, height);
   }
 }

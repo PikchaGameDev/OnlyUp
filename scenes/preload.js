@@ -1,4 +1,4 @@
-import { PreloadScreen } from "../components/PreloadScreen.js";
+import { PreloadScreen } from "../components/Screens/PreloadScreen/PreloadScreen.js";
 
 const LevelObjects = [
   [
@@ -49,7 +49,7 @@ export class Preload extends Phaser.Scene {
   preload() {
     this.load.setPath(this.URL + "assets/img");
 
-    this._preloadScreen = new PreloadScreen(this);
+    this._preloadScreen = new PreloadScreen(this, 0, 0);
 
     this.loadingAdditionalAssets(this._loadedLevels++);
   }
