@@ -1,6 +1,12 @@
 export class GameScreenView extends Phaser.GameObjects.Container {
   _scene;
 
+  backgroundGround;
+  backgroundAir;
+  backgroundClouds;
+  backgroundNlo;
+  backgroundSpace;
+
   constructor(scene, x, y) {
     super(scene, x, y);
 
@@ -14,60 +20,60 @@ export class GameScreenView extends Phaser.GameObjects.Container {
   build() {
     const { width, height } = this.CONFIG;
 
-    this._backgroundGround = this._scene.add
+    this.backgroundGround = this._scene.add
       .image(0, 0, "backgroundGround")
       .setOrigin(0);
-    this._backgroundAir = this._scene.add
+    this.backgroundAir = this._scene.add
       .image(0, 0, "backgroundAir")
       .setOrigin(0);
-    this._backgroundClouds = this._scene.add
+    this.backgroundClouds = this._scene.add
       .image(0, 0, "backgroundClouds")
       .setOrigin(0);
-    this._backgroundNlo = this._scene.add
+    this.backgroundNlo = this._scene.add
       .image(0, 0, "backgroundNlo")
       .setOrigin(0);
-    this._backgroundSpace = this._scene.add
+    this.backgroundSpace = this._scene.add
       .image(0, 0, "backgroundSpace")
       .setOrigin(0);
 
-    const backgroundWidth = this._backgroundGround.width;
+    const backgroundWidth = this.backgroundGround.width;
     let backgroundScaleWidthRatio = (width * 3) / backgroundWidth;
     backgroundScaleWidthRatio =
       backgroundScaleWidthRatio < 1 ? 1 : backgroundScaleWidthRatio;
 
-    this._backgroundGround.setScale(backgroundScaleWidthRatio, 1);
-    this._backgroundAir.setScale(backgroundScaleWidthRatio, 1);
-    this._backgroundClouds.setScale(backgroundScaleWidthRatio, 1);
-    this._backgroundNlo.setScale(backgroundScaleWidthRatio, 1);
-    this._backgroundSpace.setScale(backgroundScaleWidthRatio, 1);
+    this.backgroundGround.setScale(backgroundScaleWidthRatio, 1);
+    this.backgroundAir.setScale(backgroundScaleWidthRatio, 1);
+    this.backgroundClouds.setScale(backgroundScaleWidthRatio, 1);
+    this.backgroundNlo.setScale(backgroundScaleWidthRatio, 1);
+    this.backgroundSpace.setScale(backgroundScaleWidthRatio, 1);
 
-    this._backgroundGround.setPosition(
+    this.backgroundGround.setPosition(
       (-backgroundWidth * backgroundScaleWidthRatio) / 2 + width / 2,
-      -this._backgroundGround.height + height
+      -this.backgroundGround.height + height
     );
-    this._backgroundAir.setPosition(
+    this.backgroundAir.setPosition(
       (-backgroundWidth * backgroundScaleWidthRatio) / 2 + width / 2,
-      this._backgroundGround.y - this._backgroundAir.height
+      this.backgroundGround.y - this.backgroundAir.height
     );
-    this._backgroundClouds.setPosition(
+    this.backgroundClouds.setPosition(
       (-backgroundWidth * backgroundScaleWidthRatio) / 2 + width / 2,
-      this._backgroundAir.y - this._backgroundClouds.height
+      this.backgroundAir.y - this.backgroundClouds.height
     );
-    this._backgroundNlo.setPosition(
+    this.backgroundNlo.setPosition(
       (-backgroundWidth * backgroundScaleWidthRatio) / 2 + width / 2,
-      this._backgroundClouds.y - this._backgroundNlo.height
+      this.backgroundClouds.y - this.backgroundNlo.height
     );
-    this._backgroundSpace.setPosition(
+    this.backgroundSpace.setPosition(
       (-backgroundWidth * backgroundScaleWidthRatio) / 2 + width / 2,
-      this._backgroundNlo.y - this._backgroundSpace.height
+      this.backgroundNlo.y - this.backgroundSpace.height
     );
 
     this.add([
-      this._backgroundGround,
-      this._backgroundAir,
-      this._backgroundClouds,
-      this._backgroundNlo,
-      this._backgroundSpace,
+      this.backgroundGround,
+      this.backgroundAir,
+      this.backgroundClouds,
+      this.backgroundNlo,
+      this.backgroundSpace,
     ]);
   }
 }

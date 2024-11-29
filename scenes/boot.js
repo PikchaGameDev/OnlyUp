@@ -10,10 +10,7 @@ export class Boot extends Phaser.Scene {
   preload() {
     this.load.setPath(this.URL + "assets/img");
 
-    this.load.spritesheet("preloadBackground", "PreloadBackground.png", {
-      frameWidth: 375,
-      frameHeight: 812,
-    });
+    this.load.image("preloadBackground", "PreloadBackground.png");
   }
 
   create() {

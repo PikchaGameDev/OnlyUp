@@ -4,10 +4,8 @@ import { BalloonView } from "./BalloonView.js";
 export default class BalloonFactory {
   _scene;
 
-  constructor(scene, x, y) {
+  constructor(scene) {
     this._scene = scene;
-
-    this.create(x, y);
   }
 
   create(x, y) {
