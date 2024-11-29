@@ -15,38 +15,42 @@ export class GameScreen {
   }
 
   updateGameScreenPosition(x, y) {
+    if (!x && !y) {
+      this._currentDirection = 0;
+    }
+
     this._view.setPosition(x, y);
   }
 
-  isGroundLevel(y) {
-    return y < Math.abs(this._view.backgroundGround.y);
+  isGroundLevel() {
+    return this.y < Math.abs(this._view.backgroundGround.y);
   }
 
-  isAirLevel(y) {
+  isAirLevel() {
     return (
-      y > Math.abs(this._view.backgroundGround.y) &&
-      y <= Math.abs(this._view.backgroundAir.y)
+      this.y > Math.abs(this._view.backgroundGround.y) &&
+      this.y <= Math.abs(this._view.backgroundAir.y)
     );
   }
 
-  isCloudsLevel(y) {
+  isCloudsLevel() {
     return (
-      y > Math.abs(this._view.backgroundAir.y) &&
-      y <= Math.abs(this._view.backgroundClouds.y)
+      this.y > Math.abs(this._view.backgroundAir.y) &&
+      this.y <= Math.abs(this._view.backgroundClouds.y)
     );
   }
 
-  isNloLevel(y) {
+  isNloLevel() {
     return (
-      y > Math.abs(this._view.backgroundClouds.y) &&
-      y <= Math.abs(this._view.backgroundNlo.y)
+      this.y > Math.abs(this._view.backgroundClouds.y) &&
+      this.y <= Math.abs(this._view.backgroundNlo.y)
     );
   }
 
-  isSpaceLevel(y) {
+  isSpaceLevel() {
     return (
-      y > Math.abs(this._view.backgroundNlo.y) &&
-      y <= Math.abs(this._view.backgroundSpace.y)
+      this.y > Math.abs(this._view.backgroundNlo.y) &&
+      this.y <= Math.abs(this._view.backgroundSpace.y)
     );
   }
 
@@ -87,10 +91,6 @@ export class GameScreen {
 
   addEntityOnScreen(enemy) {
     this._view.add(enemy._view);
-  }
-
-  addToView(element) {
-    this._view.add(element);
   }
 
   moveToLeft() {
