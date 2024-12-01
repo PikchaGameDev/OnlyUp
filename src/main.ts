@@ -1,4 +1,4 @@
-import { App } from "./app.js";
+import { App } from "./app";
 
 function resizeApp() {
   let game_ratio = window.innerWidth / 2 / (window.innerHeight / 2);
@@ -32,8 +32,6 @@ function runApp() {
 }
 
 window.onload = function () {
-  console.log("aaaaaaaaaaaaaaa");
-
   try {
     eval("let i = 0;");
     eval("const _dev = true;");
