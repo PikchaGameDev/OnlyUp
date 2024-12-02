@@ -30,8 +30,6 @@ export class Game extends Phaser.Scene {
   private _gameScreen: GameScreen;
 
   private _currentLevel = LEVELS.GROUND;
-
-  private _spawnTimer: ReturnType<typeof setInterval>;
   private _waitingAfterGameTimer: ReturnType<typeof setTimeout>;
 
   private _enemies: Enemy[] = [];
@@ -67,8 +65,6 @@ export class Game extends Phaser.Scene {
     new Swipe(this, {
       swipeDetectedCallback: this.handleSwipe.bind(this),
     });
-
-    this.startSpawnEnemies();
   }
 
   handleSwipe(direction: DIRECTIONS) {
@@ -96,48 +92,40 @@ export class Game extends Phaser.Scene {
 
     this.updateGameScreen();
 
-    if (this._updateIterations % 20 === 0) {
+    if (this._updateIterations % CHECK_DAMAGE_RATE === 0) {
       this.checkDamage(this._balloon);
+    }
+
+    if (this._updateIterations % SPAWN_ENEMIES_RATE === 0) {
+      this.spawnEnemy();
     }
 
     this._updateIterations++;
   }
 
-  startSpawnEnemies() {
+  spawnEnemy() {
     const { width, height } = this.sys.game.config;
     const x_coords = [0, +width / 4, +width / 2];
 
-    let previousY = 0;
+    this.setCurrentLevel();
 
-    this._spawnTimer = setInterval(() => {
-      this.setCurrentLevel();
+    const newYForEnemy = -(this._gameScreen.y + SPAWN_ENEMIES_OFFSET) / 2;
 
-      if (this._gameScreen.y < previousY + 100) {
-        return;
-      }
+    if (newYForEnemy > -MAX_FLY_HEIGHT + +height) {
+      const newEnemy = this._enemyFactory.create(
+        x_coords[getRandomInt(0, x_coords.length)],
+        newYForEnemy,
+        this._currentLevel
+      );
 
-      const newYForEnemy = -(this._gameScreen.y + SPAWN_ENEMIES_OFFSET) / 2;
+      this._gameScreen.addEntityOnScreen(newEnemy);
 
-      previousY = this._gameScreen.y;
-
-      if (newYForEnemy > -MAX_FLY_HEIGHT + +height) {
-        const newEnemy = this._enemyFactory.create(
-          x_coords[getRandomInt(0, x_coords.length)],
-          newYForEnemy,
-          this._currentLevel
-        );
-
-        this._gameScreen.addEntityOnScreen(newEnemy);
-
-        this._enemies.push(newEnemy);
-      }
-    }, SPAWN_ENEMIES_RATE);
+      this._enemies.push(newEnemy);
+    }
   }
 
   clearLevel() {
     const { width, height } = this.sys.game.config;
-
-    clearInterval(this._spawnTimer);
 
     this._enemies.forEach((enemy) => {
       enemy.destroy();
@@ -197,8 +185,6 @@ export class Game extends Phaser.Scene {
     this._waitingAfterGameTimer = setTimeout(() => {
       this.clearLevel();
 
-      this.startSpawnEnemies();
-
       this._resultMessagesBox.clearAllText();
 
       this._waitingNewGameTimer.startTimer(
@@ -255,7 +241,6 @@ export class Game extends Phaser.Scene {
 
   destroy() {
     clearTimeout(this._waitingAfterGameTimer);
-    clearInterval(this._spawnTimer);
     this._waitingNewGameTimer.stopTimer();
 
     this.destroy();
