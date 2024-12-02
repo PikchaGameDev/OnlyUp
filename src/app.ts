@@ -14,16 +14,13 @@ export class App {
 
     const config = {
       title: "OnlyUp",
+      type: Phaser.CANVAS,
       width:
         window.innerWidth > MAX_GAME_WIDTH ? MAX_GAME_WIDTH : window.innerWidth,
       height: window.innerHeight,
       scene: scenes,
       pixelArt: true,
       parent: "root",
-      physics: {
-        default: "arcade",
-        arcade: { debug: false },
-      },
       audio: { noAudio: true },
       disableContextMenu: true,
       loader: { maxParallelDownloads: 20 },

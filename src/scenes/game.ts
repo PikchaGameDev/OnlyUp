@@ -9,6 +9,7 @@ import { WaitingNewGameTimer } from "../components/Timers/WaitingNewGameTimer/Wa
 import {
   BACKGROUND_SPEED,
   BALLOON_STARTED_OFFSET,
+  CHECK_DAMAGE_RATE,
   LEVELS,
   MAX_FLY_HEIGHT,
   SPAWN_ENEMIES_OFFSET,
@@ -36,6 +37,7 @@ export class Game extends Phaser.Scene {
   private _enemies: Enemy[] = [];
   private _isGamePaused = false;
   private _backgroundSpeed = BACKGROUND_SPEED;
+  private _checkDamageInterval: ReturnType<typeof setInterval>;
 
   constructor() {
     super({ key: "Game", active: false });
@@ -67,6 +69,10 @@ export class Game extends Phaser.Scene {
     });
 
     this.startSpawnEnemies();
+
+    this._checkDamageInterval = setInterval(() => {
+      !this._balloon.isDead && this.checkDamage(this._balloon);
+    }, CHECK_DAMAGE_RATE);
   }
 
   handleSwipe(direction: DIRECTIONS) {
@@ -172,12 +178,11 @@ export class Game extends Phaser.Scene {
           }
         )
       ) {
+        !this._balloon.isDead && this.startWaitingTimer();
+
         entity.dead();
 
         this._resultMessagesBox.showLoseText();
-
-        this.startWaitingTimer();
-
         break;
       }
     }
@@ -192,7 +197,6 @@ export class Game extends Phaser.Scene {
       this._resultMessagesBox.clearAllText();
 
       this._waitingNewGameTimer.startTimer(
-        WAITING_NEW_GAME_LENGTH / 1000,
         WAITING_NEW_GAME_LENGTH / 1000,
         () => {
           this._isGamePaused = false;
@@ -231,7 +235,7 @@ export class Game extends Phaser.Scene {
   updateGameScreen() {
     const { height } = this.sys.game.config;
 
-    if (this._gameScreen.y === MAX_FLY_HEIGHT - +height) {
+    if (this._gameScreen.y >= MAX_FLY_HEIGHT - +height) {
       this._isGamePaused = true;
 
       this._resultMessagesBox.showWinText();
@@ -242,13 +246,12 @@ export class Game extends Phaser.Scene {
     }
 
     this._gameScreen.update(this._backgroundSpeed);
-
-    this.checkDamage(this._balloon);
   }
 
   destroy() {
     clearTimeout(this._waitingAfterGameTimer);
     clearInterval(this._spawnTimer);
+    clearInterval(this._checkDamageInterval);
     this._waitingNewGameTimer.stopTimer();
 
     this.destroy();

@@ -58,6 +58,7 @@ export const MAX_FLY_HEIGHT = 11052;
 export const SPAWN_ENEMIES_RATE = 3500;
 export const SPAWN_ENEMIES_OFFSET = 200;
 export const BALLOON_STARTED_OFFSET = 200;
+export const CHECK_DAMAGE_RATE = 300;
 export const WAITING_NEW_GAME_LENGTH = 3000;
 export const PRELOAD_BAR_WIDTH = 141;
 export const BACKGROUND_SPEED = 1;
