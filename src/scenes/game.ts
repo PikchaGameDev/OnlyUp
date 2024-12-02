@@ -98,10 +98,18 @@ export class Game extends Phaser.Scene {
     const { width, height } = this.sys.game.config;
     const x_coords = [0, +width / 4, +width / 2];
 
+    let previousY = 0;
+
     this._spawnTimer = setInterval(() => {
       this.setCurrentLevel();
 
+      if (this._gameScreen.y < previousY + 100) {
+        return;
+      }
+
       const newYForEnemy = -(this._gameScreen.y + SPAWN_ENEMIES_OFFSET) / 2;
+
+      previousY = this._gameScreen.y;
 
       if (newYForEnemy > -MAX_FLY_HEIGHT + +height) {
         const newEnemy = this._enemyFactory.create(
