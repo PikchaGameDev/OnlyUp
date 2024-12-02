@@ -55,7 +55,7 @@ export enum SWIPE_DIRECTIONS {
 }
 
 export const MAX_FLY_HEIGHT = 11052;
-export const SPAWN_ENEMIES_RATE = 2500;
+export const SPAWN_ENEMIES_RATE = 3500;
 export const SPAWN_ENEMIES_OFFSET = 200;
 export const BALLOON_STARTED_OFFSET = 200;
 export const WAITING_NEW_GAME_LENGTH = 3000;
