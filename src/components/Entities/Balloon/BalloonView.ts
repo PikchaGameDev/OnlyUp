@@ -1,3 +1,4 @@
+import { BALLOON_SCALE } from "../../../constants";
 import { IEntityView } from "../Entity";
 
 export class BalloonView
@@ -25,10 +26,10 @@ export class BalloonView
   build(x: number, y: number) {
     this._balloon = this._scene.add.image(x, y, "balloon").setOrigin(0.5);
 
-    this._balloon.setScale(0.09, 0.09);
+    this._balloon.setScale(BALLOON_SCALE, BALLOON_SCALE);
 
-    this._collisionBox.width = this._balloon.width * 0.09;
-    this._collisionBox.height = this._balloon.height * 0.09;
+    this._collisionBox.width = this._balloon.width * BALLOON_SCALE;
+    this._collisionBox.height = this._balloon.height * BALLOON_SCALE;
 
     this.addedToScene();
   }
@@ -41,11 +42,11 @@ export class BalloonView
   }
 
   get scaledWidth() {
-    return this._balloon.width * 0.09;
+    return this._balloon.width * BALLOON_SCALE;
   }
 
   get scaledHeight() {
-    return this._balloon.height * 0.09;
+    return this._balloon.height * BALLOON_SCALE;
   }
 
   destroy() {

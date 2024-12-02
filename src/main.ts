@@ -1,7 +1,10 @@
 import { App } from "./app";
+import { MAX_GAME_WIDTH } from "./constants";
 
 function resizeApp() {
-  let game_ratio = window.innerWidth / 2 / (window.innerHeight / 2);
+  const gameWidth =
+    window.innerWidth > MAX_GAME_WIDTH ? MAX_GAME_WIDTH : window.innerWidth;
+  let game_ratio = gameWidth / 2 / (window.innerHeight / 2);
 
   let div = document.getElementById("root");
 
@@ -14,7 +17,7 @@ function resizeApp() {
     let dpi_h = parseInt(div.style.height) / canvas.height;
 
     let height = window.innerHeight * (dpi_w / dpi_h);
-    let width = height * game_ratio;
+    let width = gameWidth * game_ratio;
 
     canvas.style.width = width + "px";
     canvas.style.height = height + "px";

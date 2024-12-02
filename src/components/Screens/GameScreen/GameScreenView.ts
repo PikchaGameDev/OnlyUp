@@ -1,5 +1,6 @@
 export class GameScreenView extends Phaser.GameObjects.Container {
   private _scene: Phaser.Scene;
+  private _backgroundScaleWidthRatio: number;
 
   public backgroundGround: Phaser.GameObjects.Image;
   public backgroundAir: Phaser.GameObjects.Image;
@@ -16,8 +17,6 @@ export class GameScreenView extends Phaser.GameObjects.Container {
   }
 
   build() {
-    const { width, height } = this._scene.sys.game.config;
-
     this.backgroundGround = this._scene.add
       .image(0, 0, "backgroundGround")
       .setOrigin(0);
@@ -34,37 +33,13 @@ export class GameScreenView extends Phaser.GameObjects.Container {
       .image(0, 0, "backgroundSpace")
       .setOrigin(0);
 
-    const backgroundWidth = this.backgroundGround.width;
-    let backgroundScaleWidthRatio = (+width * 3) / backgroundWidth;
-    backgroundScaleWidthRatio =
-      backgroundScaleWidthRatio < 1 ? 1 : backgroundScaleWidthRatio;
+    this.setBackgroundScaleWidthRatio(this.backgroundGround.width);
 
-    this.backgroundGround.setScale(backgroundScaleWidthRatio, 1);
-    this.backgroundAir.setScale(backgroundScaleWidthRatio, 1);
-    this.backgroundClouds.setScale(backgroundScaleWidthRatio, 1);
-    this.backgroundNlo.setScale(backgroundScaleWidthRatio, 1);
-    this.backgroundSpace.setScale(backgroundScaleWidthRatio, 1);
-
-    this.backgroundGround.setPosition(
-      (-backgroundWidth * backgroundScaleWidthRatio) / 2 + +width / 2,
-      -this.backgroundGround.height + +height
-    );
-    this.backgroundAir.setPosition(
-      (-backgroundWidth * backgroundScaleWidthRatio) / 2 + +width / 2,
-      this.backgroundGround.y - this.backgroundAir.height
-    );
-    this.backgroundClouds.setPosition(
-      (-backgroundWidth * backgroundScaleWidthRatio) / 2 + +width / 2,
-      this.backgroundAir.y - this.backgroundClouds.height
-    );
-    this.backgroundNlo.setPosition(
-      (-backgroundWidth * backgroundScaleWidthRatio) / 2 + +width / 2,
-      this.backgroundClouds.y - this.backgroundNlo.height
-    );
-    this.backgroundSpace.setPosition(
-      (-backgroundWidth * backgroundScaleWidthRatio) / 2 + +width / 2,
-      this.backgroundNlo.y - this.backgroundSpace.height
-    );
+    this.createGroundLevel();
+    this.createAirLevel();
+    this.createCloudsLevel();
+    this.createNloLevel();
+    this.createSpaceLevel();
 
     this.add([
       this.backgroundGround,
@@ -73,5 +48,71 @@ export class GameScreenView extends Phaser.GameObjects.Container {
       this.backgroundNlo,
       this.backgroundSpace,
     ]);
+  }
+
+  setBackgroundScaleWidthRatio(backgroundWidth: number) {
+    const { width } = this._scene.sys.game.config;
+
+    this._backgroundScaleWidthRatio = (+width * 3) / backgroundWidth;
+    this._backgroundScaleWidthRatio =
+      this._backgroundScaleWidthRatio < 1 ? 1 : this._backgroundScaleWidthRatio;
+  }
+
+  createGroundLevel() {
+    const { width, height } = this._scene.sys.game.config;
+
+    this.backgroundGround.setScale(this._backgroundScaleWidthRatio, 1);
+    this.backgroundGround.setPosition(
+      (-this.backgroundGround.width * this._backgroundScaleWidthRatio) / 2 +
+        +width / 2,
+      -this.backgroundGround.height + +height
+    );
+  }
+
+  createAirLevel() {
+    const { width } = this._scene.sys.game.config;
+
+    this.backgroundAir.setScale(this._backgroundScaleWidthRatio, 1);
+    this.backgroundAir.setPosition(
+      (-this.backgroundAir.width * this._backgroundScaleWidthRatio) / 2 +
+        +width / 2,
+      this.backgroundGround.y - this.backgroundAir.height
+    );
+  }
+
+  createCloudsLevel() {
+    const { width } = this._scene.sys.game.config;
+
+    this.backgroundClouds.setScale(this._backgroundScaleWidthRatio, 1);
+
+    this.backgroundClouds.setPosition(
+      (-this.backgroundClouds.width * this._backgroundScaleWidthRatio) / 2 +
+        +width / 2,
+      this.backgroundAir.y - this.backgroundClouds.height
+    );
+  }
+
+  createNloLevel() {
+    const { width } = this._scene.sys.game.config;
+
+    this.backgroundNlo.setScale(this._backgroundScaleWidthRatio, 1);
+
+    this.backgroundNlo.setPosition(
+      (-this.backgroundNlo.width * this._backgroundScaleWidthRatio) / 2 +
+        +width / 2,
+      this.backgroundClouds.y - this.backgroundNlo.height
+    );
+  }
+
+  createSpaceLevel() {
+    const { width } = this._scene.sys.game.config;
+
+    this.backgroundSpace.setScale(this._backgroundScaleWidthRatio, 1);
+
+    this.backgroundSpace.setPosition(
+      (-this.backgroundSpace.width * this._backgroundScaleWidthRatio) / 2 +
+        +width / 2,
+      this.backgroundNlo.y - this.backgroundSpace.height
+    );
   }
 }

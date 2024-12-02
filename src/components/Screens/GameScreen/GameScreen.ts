@@ -1,16 +1,19 @@
+import {
+  BALLOON_STARTED_OFFSET,
+  SWIPE_DIRECTIONS,
+  SWIPE_VELOCITY,
+} from "../../../constants";
 import { Entity } from "../../Entities/Entity";
 import { GameScreenView } from "./GameScreenView";
 
 export class GameScreen {
   private _scene: Phaser.Scene;
   private _view: GameScreenView;
-  private _gameScreenSwipeVelocity: number = 5;
-  private _currentDirection: number = 0;
+  private _gameScreenSwipeVelocity: number = SWIPE_VELOCITY;
+  private _currentDirection = SWIPE_DIRECTIONS.NONE;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     this._scene = scene;
-    this._gameScreenSwipeVelocity = 5;
-    this._currentDirection = 0;
 
     this._view = new GameScreenView(scene, x, y);
 
@@ -19,14 +22,16 @@ export class GameScreen {
 
   updateGameScreenPosition(x: number, y: number) {
     if (!x && !y) {
-      this._currentDirection = 0;
+      this._currentDirection = SWIPE_DIRECTIONS.NONE;
     }
 
     this._view.setPosition(x, y);
   }
 
   isGroundLevel() {
-    return this.y < Math.abs(this._view.backgroundGround.y);
+    return (
+      this.y < Math.abs(this._view.backgroundGround.y - BALLOON_STARTED_OFFSET)
+    );
   }
 
   isAirLevel() {
@@ -64,8 +69,10 @@ export class GameScreen {
 
     if (
       !this._currentDirection ||
-      (this._currentDirection === 1 && this._view.x === +width / 2) ||
-      (this._currentDirection === -1 && this._view.x === -width / 2)
+      (this._currentDirection === SWIPE_DIRECTIONS.LEFT &&
+        this._view.x === +width / 2) ||
+      (this._currentDirection === SWIPE_DIRECTIONS.RIGHT &&
+        this._view.x === -width / 2)
     ) {
       return;
     }
@@ -86,7 +93,7 @@ export class GameScreen {
       newX !== 0
         ? this._view.setX((+width / 2) * this._currentDirection)
         : this._view.setX(0);
-      this._currentDirection = 0;
+      this._currentDirection = SWIPE_DIRECTIONS.NONE;
     } else {
       this._view.setX(newX);
     }
@@ -97,11 +104,11 @@ export class GameScreen {
   }
 
   moveToLeft() {
-    this._currentDirection = 1;
+    this._currentDirection = SWIPE_DIRECTIONS.LEFT;
   }
 
   moveToRight() {
-    this._currentDirection = -1;
+    this._currentDirection = SWIPE_DIRECTIONS.RIGHT;
   }
 
   get x() {

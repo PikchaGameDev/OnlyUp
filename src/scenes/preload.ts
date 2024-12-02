@@ -23,6 +23,7 @@ export class Preload extends Phaser.Scene {
     this._preloadScreen = new PreloadScreen(this, 0, 0);
 
     this.loadingAdditionalAssets(this._loadedLevels++);
+    this.loadingAdditionalAssets(this._loadedLevels++);
   }
 
   create() {

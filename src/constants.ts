@@ -1,8 +1,8 @@
 export const LEVEL_ASSETS = [
   [
+    { key: "backgroundGround", path: "BackgroundGround.png" },
     { key: "backgroundAir", path: "BackgroundAir.png" },
     { key: "backgroundClouds", path: "BackgroundClouds.png" },
-    { key: "backgroundGround", path: "BackgroundGround.png" },
     { key: "backgroundNlo", path: "BackgroundNlo.png" },
     { key: "backgroundSpace", path: "BackgroundSpace.png" },
     { key: "balloon", path: "Balloon.png" },
@@ -23,8 +23,8 @@ export const LEVEL_ASSETS = [
     { key: "package", path: "Package.png" },
     { key: "nlo", path: "NLO.png" },
   ],
+  [{ key: "nlo2", path: "NLO2.png" }],
   [
-    { key: "nlo2", path: "NLO2.png" },
     { key: "saturn", path: "Saturn.png" },
     { key: "moon", path: "Moon.png" },
     { key: "frog", path: "Frog.png" },
@@ -47,3 +47,21 @@ export enum LEVELS {
   NLO = 3,
   SPACE = 4,
 }
+
+export enum SWIPE_DIRECTIONS {
+  LEFT = 1,
+  RIGHT = -1,
+  NONE = 0,
+}
+
+export const MAX_FLY_HEIGHT = 11052;
+export const SPAWN_ENEMIES_RATE = 2500;
+export const SPAWN_ENEMIES_OFFSET = 200;
+export const BALLOON_STARTED_OFFSET = 200;
+export const WAITING_NEW_GAME_LENGTH = 3000;
+export const PRELOAD_BAR_WIDTH = 141;
+export const BACKGROUND_SPEED = 1;
+export const SWIPE_VELOCITY = 5;
+export const BALLOON_SCALE = 0.09;
+export const ENEMY_SCALE = 0.4;
+export const MAX_GAME_WIDTH = 500;

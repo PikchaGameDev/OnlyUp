@@ -1,3 +1,4 @@
+import { PRELOAD_BAR_WIDTH } from "../../../constants";
 import { PreloadScreenView } from "./PreloadScreenView";
 
 export interface IPreloadScreen {
@@ -22,7 +23,7 @@ export class PreloadScreen {
   onProgress(value: number) {
     this._view.progressBar.clear();
     this._view.progressBar.fillStyle(0xb72fae, 1);
-    this._view.progressBar.fillRect(0, 0, 141 * value, 5);
+    this._view.progressBar.fillRect(0, 0, PRELOAD_BAR_WIDTH * value, 5);
   }
 
   destroy() {

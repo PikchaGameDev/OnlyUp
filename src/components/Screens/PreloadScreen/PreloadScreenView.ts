@@ -1,3 +1,5 @@
+import { PRELOAD_BAR_WIDTH } from "../../../constants";
+
 export class PreloadScreenView extends Phaser.GameObjects.Container {
   private _scene: Phaser.Scene;
 
@@ -21,16 +23,16 @@ export class PreloadScreenView extends Phaser.GameObjects.Container {
     background.setScale(+width / background.width, +height / background.height);
 
     this.progressBar = this._scene.add.graphics({
-      x: +width / 2 - 141 / 2,
+      x: +width / 2 - PRELOAD_BAR_WIDTH / 2,
       y: (+height * 3) / 4,
     });
     const progressBorder = this._scene.add.graphics({
-      x: +width / 2 - 141 / 2,
+      x: +width / 2 - PRELOAD_BAR_WIDTH / 2,
       y: (+height * 3) / 4,
     });
 
     progressBorder.fillStyle(0x38366d, 1);
-    progressBorder.fillRect(0, 0, 141, 5);
+    progressBorder.fillRect(0, 0, PRELOAD_BAR_WIDTH, 5);
 
     this.add([progressBorder, this.progressBar]);
 

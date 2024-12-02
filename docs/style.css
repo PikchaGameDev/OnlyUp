@@ -1,18 +1,22 @@
 body {
   margin: 0;
   overflow: hidden;
+  background-image: url("./assets/SpaceBg.jpg");
+  background-position: center;
+  background-size: contain;
   background-color: black;
 }
 
-#phaser-app {
-  margin: 0 auto;
+#app {
+  overflow: hidden;
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 canvas {
-  width: 100%;
+  display: flex;
+  align-self: center;
   height: 100%;
   border: 1px solid black;
 }

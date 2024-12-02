@@ -6,7 +6,15 @@ import { Entity } from "../components/Entities/Entity";
 import { ResultMessage } from "../components/Messages/ResultMessage/ResultMessage";
 import { GameScreen } from "../components/Screens/GameScreen/GameScreen";
 import { WaitingNewGameTimer } from "../components/Timers/WaitingNewGameTimer/WaitingNewGameTimer";
-import { LEVELS } from "../constants";
+import {
+  BACKGROUND_SPEED,
+  BALLOON_STARTED_OFFSET,
+  LEVELS,
+  MAX_FLY_HEIGHT,
+  SPAWN_ENEMIES_OFFSET,
+  SPAWN_ENEMIES_RATE,
+  WAITING_NEW_GAME_LENGTH,
+} from "../constants";
 import Physics from "../utils/physics";
 import { DIRECTIONS, Swipe } from "../utils/swipe";
 import { getRandomInt } from "../utils/utils";
@@ -27,7 +35,7 @@ export class Game extends Phaser.Scene {
 
   private _enemies: Enemy[] = [];
   private _isGamePaused = false;
-  private _backgroundSpeed = 1;
+  private _backgroundSpeed = BACKGROUND_SPEED;
 
   constructor() {
     super({ key: "Game", active: false });
@@ -49,7 +57,10 @@ export class Game extends Phaser.Scene {
       +height / 2
     );
 
-    this._balloon = this._balloonFactory.create(+width / 2, +height - 200);
+    this._balloon = this._balloonFactory.create(
+      +width / 2,
+      +height - BALLOON_STARTED_OFFSET
+    );
 
     new Swipe(this, {
       swipeDetectedCallback: this.handleSwipe.bind(this),
@@ -90,9 +101,9 @@ export class Game extends Phaser.Scene {
     this._spawnTimer = setInterval(() => {
       this.setCurrentLevel();
 
-      const newYForEnemy = -(this._gameScreen.y + 200) / 2;
+      const newYForEnemy = -(this._gameScreen.y + SPAWN_ENEMIES_OFFSET) / 2;
 
-      if (newYForEnemy > -11052 + +height) {
+      if (newYForEnemy > -MAX_FLY_HEIGHT + +height) {
         const newEnemy = this._enemyFactory.create(
           x_coords[getRandomInt(0, x_coords.length)],
           newYForEnemy,
@@ -103,7 +114,7 @@ export class Game extends Phaser.Scene {
 
         this._enemies.push(newEnemy);
       }
-    }, 3000);
+    }, SPAWN_ENEMIES_RATE);
   }
 
   clearLevel() {
@@ -117,7 +128,10 @@ export class Game extends Phaser.Scene {
 
     this._enemies = [];
 
-    this._balloon = this._balloonFactory.create(+width / 2, +height - 200);
+    this._balloon = this._balloonFactory.create(
+      +width / 2,
+      +height - BALLOON_STARTED_OFFSET
+    );
 
     this._gameScreen.updateGameScreenPosition(0, 0);
 
@@ -165,35 +179,39 @@ export class Game extends Phaser.Scene {
 
       this._resultMessagesBox.clearAllText();
 
-      this._waitingNewGameTimer.startTimer(3, 1, () => {
-        this._isGamePaused = false;
-      });
-    }, 3000);
+      this._waitingNewGameTimer.startTimer(
+        WAITING_NEW_GAME_LENGTH / 1000,
+        1,
+        () => {
+          this._isGamePaused = false;
+        }
+      );
+    }, WAITING_NEW_GAME_LENGTH);
   }
 
   setCurrentLevel() {
     if (this._gameScreen.isGroundLevel()) {
-      this._currentLevel = 0;
+      this._currentLevel = LEVELS.GROUND;
       return;
     }
 
     if (this._gameScreen.isAirLevel()) {
-      this._currentLevel = 1;
+      this._currentLevel = LEVELS.AIR;
       return;
     }
 
     if (this._gameScreen.isCloudsLevel()) {
-      this._currentLevel = 2;
+      this._currentLevel = LEVELS.CLOUDS;
       return;
     }
 
     if (this._gameScreen.isNloLevel()) {
-      this._currentLevel = 3;
+      this._currentLevel = LEVELS.NLO;
       return;
     }
 
     if (this._gameScreen.isSpaceLevel()) {
-      this._currentLevel = 4;
+      this._currentLevel = LEVELS.SPACE;
       return;
     }
   }
@@ -201,7 +219,7 @@ export class Game extends Phaser.Scene {
   updateGameScreen() {
     const { height } = this.sys.game.config;
 
-    if (this._gameScreen.y === 11052 - +height) {
+    if (this._gameScreen.y === MAX_FLY_HEIGHT - +height) {
       this._isGamePaused = true;
 
       this._resultMessagesBox.showWinText();

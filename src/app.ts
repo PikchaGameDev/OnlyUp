@@ -2,6 +2,7 @@ import { Boot } from "./scenes/boot";
 import { Preload } from "./scenes/preload";
 import { Game } from "./scenes/game";
 import Phaser from "phaser";
+import { MAX_GAME_WIDTH } from "./constants";
 
 export class App {
   start() {
@@ -13,12 +14,12 @@ export class App {
 
     const config = {
       title: "OnlyUp",
-      width: window.innerWidth,
+      width:
+        window.innerWidth > MAX_GAME_WIDTH ? MAX_GAME_WIDTH : window.innerWidth,
       height: window.innerHeight,
       scene: scenes,
       pixelArt: true,
       parent: "root",
-      backgroundColor: 0xffffff,
       physics: {
         default: "arcade",
         arcade: { debug: false },
@@ -29,6 +30,9 @@ export class App {
       banner: false,
       dom: {
         createContainer: true,
+      },
+      scale: {
+        autoCenter: Phaser.Scale.CENTER_BOTH,
       },
     };
 
