@@ -97,7 +97,7 @@ export class Game extends Phaser.Scene {
     }
 
     if (this._updateIterations % SPAWN_ENEMIES_RATE === 0) {
-      //this.spawnEnemy();
+      this.spawnEnemy();
     }
 
     this._updateIterations++;
