@@ -37,7 +37,7 @@ export class Game extends Phaser.Scene {
   private _enemies: Enemy[] = [];
   private _isGamePaused = false;
   private _backgroundSpeed = BACKGROUND_SPEED;
-  private _checkDamageInterval: ReturnType<typeof setInterval>;
+  private _updateIterations = 0;
 
   constructor() {
     super({ key: "Game", active: false });
@@ -69,10 +69,6 @@ export class Game extends Phaser.Scene {
     });
 
     this.startSpawnEnemies();
-
-    this._checkDamageInterval = setInterval(() => {
-      !this._balloon.isDead && this.checkDamage(this._balloon);
-    }, CHECK_DAMAGE_RATE);
   }
 
   handleSwipe(direction: DIRECTIONS) {
@@ -98,10 +94,13 @@ export class Game extends Phaser.Scene {
       return;
     }
 
-    if (!this._isGamePaused) {
-      this.updateGameScreen();
-    } else {
+    this.updateGameScreen();
+
+    if (this._updateIterations % 20 === 0) {
+      this.checkDamage(this._balloon);
     }
+
+    this._updateIterations++;
   }
 
   startSpawnEnemies() {
@@ -153,6 +152,8 @@ export class Game extends Phaser.Scene {
 
     this._gameScreen.updateGameScreenPosition(0, 0);
 
+    this._updateIterations = 0;
+
     this._isGamePaused = true;
   }
 
@@ -160,6 +161,10 @@ export class Game extends Phaser.Scene {
     const { width } = this.sys.game.config;
 
     for (let damager of this._enemies) {
+      if (-this._gameScreen.y > damager.collisionBox.y * 2) {
+        return;
+      }
+
       if (
         Physics.isCheckIntersection(
           {
@@ -178,9 +183,9 @@ export class Game extends Phaser.Scene {
           }
         )
       ) {
-        !this._balloon.isDead && this.startWaitingTimer();
-
         entity.dead();
+
+        this.startWaitingTimer();
 
         this._resultMessagesBox.showLoseText();
         break;
@@ -251,7 +256,6 @@ export class Game extends Phaser.Scene {
   destroy() {
     clearTimeout(this._waitingAfterGameTimer);
     clearInterval(this._spawnTimer);
-    clearInterval(this._checkDamageInterval);
     this._waitingNewGameTimer.stopTimer();
 
     this.destroy();
