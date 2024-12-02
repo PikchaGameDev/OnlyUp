@@ -56,6 +56,8 @@ export class WaitingNewGameTimer implements IWaitingNewGameTimer {
   stopTimer() {
     clearTimeout(this._timer);
 
+    this._timer = 0;
+
     this._view.setTimerVisible(false);
 
     this._view.setTimerText("");

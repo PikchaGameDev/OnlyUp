@@ -70,6 +70,10 @@ export class Game extends Phaser.Scene {
   }
 
   handleSwipe(direction: DIRECTIONS) {
+    if (this._waitingNewGameTimer.isTimerRunning()) {
+      return;
+    }
+
     switch (direction) {
       case DIRECTIONS.RIGHT:
         this._gameScreen.moveToRight();
