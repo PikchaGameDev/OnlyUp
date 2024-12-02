@@ -149,10 +149,6 @@ export class Game extends Phaser.Scene {
     const { width } = this.sys.game.config;
 
     for (let damager of this._enemies) {
-      if (-this._gameScreen.y > damager.collisionBox.y * 2) {
-        return;
-      }
-
       if (
         Physics.isCheckIntersection(
           {
