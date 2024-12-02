@@ -193,7 +193,7 @@ export class Game extends Phaser.Scene {
 
       this._waitingNewGameTimer.startTimer(
         WAITING_NEW_GAME_LENGTH / 1000,
-        1,
+        WAITING_NEW_GAME_LENGTH / 1000,
         () => {
           this._isGamePaused = false;
         }

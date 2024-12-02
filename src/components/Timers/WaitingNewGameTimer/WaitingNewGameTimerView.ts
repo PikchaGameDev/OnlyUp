@@ -24,7 +24,7 @@ export class WaitingNewGameTimerView
     this._timerText = this._scene.add
       .text(x, y, "", {
         fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
-        fontSize: 30,
+        fontSize: 50,
       })
       .setOrigin(0.5);
 

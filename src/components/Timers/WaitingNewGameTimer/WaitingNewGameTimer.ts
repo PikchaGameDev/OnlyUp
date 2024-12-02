@@ -40,9 +40,9 @@ export class WaitingNewGameTimer implements IWaitingNewGameTimer {
   runNewTick(currentTick: number) {
     this._view.setTimerText(String(currentTick));
 
-    if (currentTick <= this._timerLength) {
+    if (currentTick >= 1) {
       this._timer = setTimeout(() => {
-        this.runNewTick(currentTick + 1);
+        this.runNewTick(currentTick - 1);
       }, 1000);
     } else {
       this.stopTimer();
